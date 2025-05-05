@@ -43,4 +43,37 @@ public class ClienteService
             return false;
         }
     }
+
+    public void desbloquarCliente(String identificacion, String nuevoPin){
+        Optional<Cliente> optionalCliente = clienteRepository.findByIdentificacion(identificacion);
+        if(optionalCliente.isPresent()){
+            Cliente cliente = optionalCliente.get();
+            cliente.setBloqueado(false);
+            cliente.setIntentosFallidos(0);
+            cliente.setPin(nuevoPin);
+            clienteRepository.save(cliente);
+        }else{
+            throw new RuntimeException("Cliente no encontrado");
+        }
+    }
+
+    public void cambiarPin(Cliente cliente, String nuevoPin){
+        cliente.setPin(nuevoPin);
+        clienteRepository.save(cliente);
+    }
+
+    public void incrementarIntento(Cliente cliente){
+        cliente.setIntentosFallidos(cliente.getIntentosFallidos() + 1);
+        clienteRepository.save(cliente);
+    }
+
+    public void reiniciarIntentos(Cliente cliente){
+        cliente.setIntentosFallidos(0);
+        clienteRepository.save(cliente);
+    }
+
+    public void bloquearCliente(Cliente cliente){
+        cliente.setBloqueado(true);
+        clienteRepository.save(cliente);
+    }
 }
