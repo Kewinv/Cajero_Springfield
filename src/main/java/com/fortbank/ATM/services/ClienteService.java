@@ -29,12 +29,12 @@ public class ClienteService
 
         if(cliente.getPin().equals(pin))
         {
-            cliente.setIntentosFallidos(0);
+            cliente.setIntentos(0);
             clienteRepository.save(cliente);
             return true;
         }else{
-            int intentos = cliente.getIntentosFallidos() + 1;
-            cliente.setIntentosFallidos(intentos);
+            int intentos = cliente.getIntentos() + 1;
+            cliente.setIntentos(intentos);
             if(intentos >= 3)
             {
                 cliente.setBloqueado(true);
