@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns: th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin cajero</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 
-    <div class="admin-container"></div>
+    <div class="admin-container">
         <h1>Admin mi banco</h1>
         <h2><i class="fas fa-user-shield"></i>Menú Administración</h2>
         <ul class="admin-menu">
@@ -15,8 +16,19 @@
                 <i class="fas fa-user-plus"></i>
                 Crear cliente
             </li>
+            <li>
+                <a th:href="@{admin/crear-cuenta}"></a>
+                <i class="fas fa-credit-card"></i>
+                Crear Cuenta
+            </li>
+            <li>
+                <a th:href="@{admin/desbloquear}"></a>
+                <i class="fas fa-lock-open"></i>
+                Desbloquear cuenta
+            </li>
         </ul>
 
+    </div>
 
 
 </body>
