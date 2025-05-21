@@ -1,15 +1,14 @@
 package com.fortbank.ATM.controller;
 
 import com.fortbank.ATM.entity.Cliente;
+import com.fortbank.ATM.entity.Cuenta;
+import com.fortbank.ATM.entity.TipoCuenta;
 import com.fortbank.ATM.services.ClienteService;
 import com.fortbank.ATM.services.CuentaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -38,4 +37,32 @@ public class AdminController {
         return "redirect:/admin"; // Redirige a la ruta "/admin"
     }
 
+    @GetMapping("/crear-cuenta")
+    public String mostrarFormularioCuenta(Model model){
+        model.addAttribute("cuenta", new Cuenta());
+        return "admin/crear-cuenta";
+    }
+
+    @PostMapping("/crear-cuenta")
+    public String crearCuenta(@RequestParam String identificacion,
+                              @RequestParam String numero,
+                              @RequestParam TipoCuenta tipo,
+                              @RequestParam double saldo){
+        Cliente cliente = clienteService.buscarPorIdentificacion(identificacion).orElseThrow();
+        cuentaService.creaCuenta(cliente,numero,tipo,saldo);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("(desbloquear")
+    public String mostrarDesbloqueo(){
+        return "admin/desbloquear";
+    }
+
+    @PostMapping("(desbloquear")
+    public String mostrarDesbloqueo(@RequestParam String identificacion,
+                                    @RequestParam String nuevoPin){
+
+        clienteService.desbloquarCliente(identificacion, nuevoPin);
+        return "redirect:/admin";
+    }
 }
